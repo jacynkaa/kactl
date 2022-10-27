@@ -12,7 +12,7 @@
  *  \end{itemize*}
  * 
  * Time: O(E\sqrt V)
- * Status: ???
+ * Status: Tested on https://judge.yosupo.jp/problem/bipartitematching
  */
 
 struct Matching : vi { // Usage: Matching match(num_white);
