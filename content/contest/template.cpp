@@ -1,12 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define rep(i, n) for (int i = 0; i < (n); i++)
+#define fwd(i, a, n) for (int i = a; i < (n); i++)
+#define rep(i, n) fwd(i, 0, n)
 #define all(X) (X).begin(), (X).end()
 #define sz(X) (int)(X.size())
 #define st first
 #define nd second
-#define pii pair<int, int>
+typedef pair<int, int> pii;
+typedef vector<int> vi;
 
 #ifdef LOC
 auto &operator<<(auto &out, pair<auto, auto> a) { return out << "(" << a.st << ", " << a.nd << ")"; }
