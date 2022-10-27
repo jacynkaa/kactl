@@ -1,8 +1,3 @@
-
-struct Sqr {
-   int begin, end, len;
-};
-
 /**
  * Author: Krzysztof Potepa
  * Date: N/A
@@ -14,6 +9,10 @@ struct Sqr {
  * Time: O(n lg n)
  * Status: N/A
  */
+
+struct Sqr {
+   int begin, end, len;
+};
 
 vector<Sqr> lorentz(const string &s) {
    vector<Sqr> ans;

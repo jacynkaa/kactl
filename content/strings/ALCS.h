@@ -5,14 +5,14 @@
  * License: N/A
  * Description: All-substrings common sequences algorithm.
  * Given strings A and B, algorithm computes:
- * C(i,j,k) = |LCS(A[:i), B[j:k))| in compressed form;
+ * $C(i,j,k) = |LCS(A[:i), B[j:k))|$ in compressed form;
  * To describe the compression, note that:
- * 1. C(i,j,k-1) <= C(i,j,k) <= C(i,j,k-1)+1
- * 2. If j < k and C(i,j,k) = C(i,j,k-1)+1,
- *  then C(i,j+1,k) = C(i,j+1,k-1)+1
- * 3. If j >= k, then C(i,j,k) = 0
+ * 1. $C(i,j,k-1) <= C(i,j,k) <= C(i,j,k-1)+1$
+ * 2. If $j < k$ and $C(i,j,k) = C(i,j,k-1)+1$,
+ *  then $C(i,j+1,k) = C(i,j+1,k-1)+1$
+ * 3. If $j >= k$, then $C(i,j,k) = 0$
  * This allows us to store just the following:
- * ih(i,k) = min j s.t. C(i,j,k-1) < C(i,j,k)
+ * $ih(i,k)$ = min j s.t. $C(i,j,k-1) < C(i,j,k)$
  * Time: O(nm)
  * Status: N/A
  */

@@ -13,15 +13,42 @@
  * \textbf{Euler's thm}: $a,n$ coprime $\Rightarrow a^{\phi(n)} \equiv 1 \pmod{n}$.
  *
  * \textbf{Fermat's little thm}: $p$ prime $\Rightarrow a^{p-1} \equiv 1 \pmod{p}$ $\forall a$.
+ * Time:  O(n^{2/3})
  * Status: Tested
  */
 #pragma once
 
-const int LIM = 5000000;
-int phi[LIM];
+constexpr int MOD = 998244353;
 
-void calculatePhi() {
-	rep(i,0,LIM) phi[i] = i&1 ? i : i/2;
-	for (int i = 3; i < LIM; i += 2) if(phi[i] == i)
-		for (int j = i; j < LIM; j += i) phi[j] -= phi[j] / i;
+Vi phi(1e7 + 1);
+
+void calcPhi() {
+   iota(all(phi), 0);
+   rep(i, 2, sz(phi)) if (phi[i] == i) for (int j = i; j < sz(phi); j += i) phi[j] = phi[j] / i * (i - 1);
+}
+
+vector<ll> phiSum; // [k] = sum from 0 to k-1
+void calcPhiSum() {
+   calcPhi();
+   phiSum.resize(sz(phi) + 1);
+   rep(i, 0, sz(phi)) phiSum[i + 1] = (phiSum[i] + phi[i]) % MOD;
+}
+
+// Get prefix sum of phi(0) + ... + phi(n-1).
+// WARNING: Call calcPhiSum first! For MOD > 4*10^9, answer will overflow.
+ll getPhiSum(ll n) {
+   static unordered_map<ll, ll> big;
+   if (n < sz(phiSum))
+      return phiSum[n];
+   if (big.count(--n))
+      return big[n];
+
+   ll ret = (n % 2 ? n % MOD * ((n + 1) / 2 % MOD) : n / 2 % MOD * (n % MOD + 1)) % MOD;
+
+   for (ll s, i = 2; i <= n; i = s + 1) {
+      s = n / (n / i);
+      ret -= (s - i + 1) % MOD * getPhiSum(n / i + 1) % MOD;
+   }
+
+   return big[n] = ret = (ret % MOD + MOD) % MOD;
 }
