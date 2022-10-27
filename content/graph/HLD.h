@@ -10,7 +10,7 @@
  * Takes as input the full adjacency list. VALS\_EDGES being true means that
  * values are stored in the edges, as opposed to the nodes. All values
  * initialized to the segtree default. Root must be 0.
- * Time: O((\log N)^2)
+ * Time: O(\log^2 N)
  * Status: stress-tested against old HLD
  */
 #pragma once
@@ -21,7 +21,7 @@ template <bool VALS_EDGES> struct HLD {
 	int N, tim = 0;
 	vector<vi> adj;
 	vi par, siz, depth, rt, pos;
-	Node *tree;
+	Node *tree; // right-opened intervals [l,r),
 	HLD(vector<vi> adj_)
 		: N(sz(adj_)), adj(adj_), par(N, -1), siz(N, 1), depth(N),
 		  rt(N),pos(N),tree(new Node(0, N)){ dfsSz(0); dfsHld(0); }
@@ -47,7 +47,7 @@ template <bool VALS_EDGES> struct HLD {
 			op(pos[rt[v]], pos[v] + 1);
 		}
 		if (depth[u] > depth[v]) swap(u, v);
-		op(pos[u] + VALS_EDGES, pos[v] + 1);
+		op(pos[u] + VALS_EDGES, pos[v] + 1); // return u for lca
 	}
 	void modifyPath(int u, int v, int val) {
 		process(u, v, [&](int l, int r) { tree->add(l, r, val); });
@@ -58,7 +58,7 @@ template <bool VALS_EDGES> struct HLD {
 				res = max(res, tree->query(l, r));
 		});
 		return res;
-	}
+	} //queryPoint = return tree->query(pos[v])
 	int querySubtree(int v) { // modifySubtree is similar
 		return tree->query(pos[v] + VALS_EDGES, pos[v] + siz[v]);
 	}
