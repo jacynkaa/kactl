@@ -28,13 +28,13 @@ void ntt(vl &a) {
 	for (static int k = 2, s = 2; k < n; k *= 2, s++) {
 		rt.resize(n);
 		ll z[] = {1, modpow(root, mod >> s)};
-		rep(i,k,2*k) rt[i] = rt[i / 2] * z[i & 1] % mod;
+		fwd(i,k,2*k) rt[i] = rt[i / 2] * z[i & 1] % mod;
 	}
 	vi rev(n);
-	rep(i,0,n) rev[i] = (rev[i / 2] | (i & 1) << L) / 2;
-	rep(i,0,n) if (i < rev[i]) swap(a[i], a[rev[i]]);
+	rep(i,n) rev[i] = (rev[i / 2] | (i & 1) << L) / 2;
+	rep(i,n) if (i < rev[i]) swap(a[i], a[rev[i]]);
 	for (int k = 1; k < n; k *= 2)
-		for (int i = 0; i < n; i += 2 * k) rep(j,0,k) {
+		for (int i = 0; i < n; i += 2 * k) rep(j,k) {
 			ll z = rt[j + k] * a[i + j + k] % mod, &ai = a[i + j];
 			a[i + j + k] = ai - z + (z > ai ? mod : 0);
 			ai += (ai + z >= mod ? z - mod : z);
@@ -47,7 +47,7 @@ vl conv(const vl &a, const vl &b) {
 	vl L(a), R(b), out(n);
 	L.resize(n), R.resize(n);
 	ntt(L), ntt(R);
-	rep(i,0,n) out[-i & (n - 1)] = (ll)L[i] * R[i] % mod * inv % mod;
+	rep(i,n) out[-i & (n - 1)] = (ll)L[i] * R[i] % mod * inv % mod;
 	ntt(out);
 	return {out.begin(), out.begin() + s};
 }

@@ -19,7 +19,7 @@ vector<bool> intersectMatroids(T& A, U& B, int n) {
 	// first by weight change, then by length using Bellman-Ford, 
 	// Speedup trick (only for unweighted):
 	A.init(ans); B.init(ans);
-	rep(i, n) 
+	fwd(i, n) 
 		if (A.canAdd(i) && B.canAdd(i))
 			ans[i] = 1, A.init(ans), B.init(ans); //End of speedup
 
@@ -29,15 +29,15 @@ vector<bool> intersectMatroids(T& A, U& B, int n) {
 		queue<int> que;
 		vi prev(n, -1);
 		A.init(ans); B.init(ans); ok = 0;
-		rep(i, n) if (!ans[i]) {
+		fwd(i, n) if (!ans[i]) {
 			if (A.canAdd(i)) que.push(i), prev[i]=-2;
 			good[i] = B.canAdd(i);
 		}
 
-		rep(i, n) if (ans[i]) {
+		fwd(i, n) if (ans[i]) {
 			ans[i] = 0;
 			A.init(ans); B.init(ans);
-			rep(j, n) if (i != j && !ans[j]) {
+			fwd(j, n) if (i != j && !ans[j]) {
 				if (A.canAdd(j)) G[i].push_back(j); //-cost[j]
 				if (B.canAdd(j)) G[j].push_back(i); // cost[i]
 			}
@@ -71,7 +71,7 @@ struct LimOracle {
 	// Init oracle for independent set S; O(n)
 	void init(vector<bool>& S) {
 		tmp = maxAllowed;
-		rep(i, sz(S)) tmp[color[i]] -= S[i];
+		fwd(i, sz(S)) tmp[color[i]] -= S[i];
 	}
 	// Check if S+{k} is independent; time: O(1)
 	bool canAdd(int k) { return tmp[color[k]] > 0;}
@@ -88,7 +88,7 @@ struct GraphOracle {
 	// Init oracle for independent set S; ~O(n)
 	void init(vector<bool>& S) {
 		par.assign(n, -1);
-		rep(i, sz(S)) if (S[i])
+		fwd(i, sz(S)) if (S[i])
 			par[find(elems[i].st)] = find(elems[i].nd);
 	}
 	// Check if S+{k} is independent; time: ~O(1)
@@ -119,12 +119,12 @@ struct CographOracle {
 		pre.assign(n, 0);
 		low.resize(n);
 		cnt = 0;
-		rep(i, sz(S)) if (!S[i]) {
+		fwd(i, sz(S)) if (!S[i]) {
 			pii e = elems[i];
 			G[e.st].push_back(e.nd);
 			G[e.nd].push_back(e.st);
 		}
-		rep(v, n) if (!pre[v]) dfs(v, -1);
+		fwd(v, n) if (!pre[v]) dfs(v, -1);
 	}
 	// Check if S+{k} is independent; time: O(1)
 	bool canAdd(int k) {
@@ -139,9 +139,9 @@ struct XorOracle {
 	// Init for independent set S; O(n+r^2)
 	void init(vector<bool>& S) {
 		base.assign(63, 0);
-		rep(i, sz(S)) if (S[i]) {
+		fwd(i, sz(S)) if (S[i]) {
 			ll e = elems[i];
-			rep(j, sz(base)) if ((e >> j) & 1) {
+			fwd(j, sz(base)) if ((e >> j) & 1) {
 				if (!base[j]) {
 					base[j] = e;
 					break;
@@ -153,7 +153,7 @@ struct XorOracle {
 	// Check if S+{k} is independent; time: O(r)
 	bool canAdd(int k) {
 		ll e = elems[k];
-		rep(i, sz(base)) if ((e >> i) & 1) {
+		fwd(i, sz(base)) if ((e >> i) & 1) {
 			if (!base[i]) return 1;
 			e ^= base[i];
 		}

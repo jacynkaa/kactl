@@ -1,5 +1,5 @@
 /**
- * Author: Victor Lecomte, chilli
+ * Author: victor Lecomte, chilli
  * Date: 2019-04-26
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
@@ -21,7 +21,7 @@
 template<class P>
 bool inPolygon(vector<P> &p, P a, bool strict = true) {
 	int cnt = 0, n = sz(p);
-	rep(i,0,n) {
+	rep(i,n) {
 		P q = p[(i + 1) % n];
 		if (onSegment(p[i], q, a)) return !strict;
 		//or: if (segDist(p[i], q, a) <= eps) return !strict;

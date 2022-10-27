@@ -28,19 +28,19 @@ struct PalTree {
 		return i;
 	}
 	void add(int x) {//x in [0,ALPHA), time O(1) or O(lg n) for DP
-		txt.pb(x); last = ext(last);
+		txt.push_back(x); last = ext(last);
 		if(!to[last][x]) {
-			len.pb(len[last] + 2);
-			link.pb(to[ext(link[last])][x]);
+			len.push_back(len[last] + 2);
+			link.push_back(to[ext(link[last])][x]);
 			to[last][x] = sz(to);
-			to.pb({});
-			diff.pb(len.back() - len[link.back()]); 	                //[DP]
-			slink.pb(diff.back() == diff[link.back()] ? 	            //[DP]
+			to.push_back({});
+			diff.push_back(len.back() - len[link.back()]); 	                //[DP]
+			slink.push_back(diff.back() == diff[link.back()] ? 	            //[DP]
 				slink[link.back()] : link.back());                      //[DP]
-			series.pb(0);	                                            //[DP]
+			series.push_back(0);	                                            //[DP]
 		}
 		last = to[last][x];
-		ans.pb(INT_MAX);		                                        //[DP]
+		ans.push_back(INT_MAX);		                                        //[DP]
 		for(int i = last; len[i] > 0; i = slink[i]) {		            //[DP]
 			series[i] = ans[sz(ans) - len[slink[i]] - diff[i] - 1]; 	//[DP]
 			if(diff[i] == diff[link[i]])	                            //[DP]

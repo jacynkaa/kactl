@@ -20,18 +20,18 @@
 
 constexpr int MOD = 998244353;
 
-Vi phi(1e7 + 1);
+vi phi(1e7 + 1);
 
 void calcPhi() {
    iota(all(phi), 0);
-   rep(i, 2, sz(phi)) if (phi[i] == i) for (int j = i; j < sz(phi); j += i) phi[j] = phi[j] / i * (i - 1);
+   fwd(i, 2, sz(phi)) if (phi[i] == i) for (int j = i; j < sz(phi); j += i) phi[j] = phi[j] / i * (i - 1);
 }
 
 vector<ll> phiSum; // [k] = sum from 0 to k-1
 void calcPhiSum() {
    calcPhi();
    phiSum.resize(sz(phi) + 1);
-   rep(i, 0, sz(phi)) phiSum[i + 1] = (phiSum[i] + phi[i]) % MOD;
+   rep(i, sz(phi)) phiSum[i + 1] = (phiSum[i] + phi[i]) % MOD;
 }
 
 // Get prefix sum of phi(0) + ... + phi(n-1).

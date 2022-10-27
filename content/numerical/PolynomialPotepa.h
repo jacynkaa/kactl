@@ -25,7 +25,7 @@ Zp eval(const Poly &P, Zp x) {
 // Add polynomial; time: O(n)
 Poly &operator+=(Poly &l, const Poly &r) {
    l.resize(max(sz(l), sz(r)));
-   rep(i, 0, sz(r)) l[i] += r[i];
+   rep(i, sz(r)) l[i] += r[i];
    norm(l);
    return l;
 }
@@ -34,7 +34,7 @@ Poly operator+(Poly l, const Poly &r) { return l += r; }
 // Subtract polynomial; time: O(n)
 Poly &operator-=(Poly &l, const Poly &r) {
    l.resize(max(sz(l), sz(r)));
-   rep(i, 0, sz(r)) l[i] -= r[i];
+   rep(i, sz(r)) l[i] -= r[i];
    norm(l);
    return l;
 }
@@ -45,7 +45,7 @@ Poly &operator*=(Poly &l, const Poly &r) {
    if (min(sz(l), sz(r)) < 50) {
       // Naive multiplication
       Poly p(sz(l) + sz(r));
-      rep(i, 0, sz(l)) rep(j, 0, sz(r)) p[i + j] += l[i] * r[j];
+      rep(i, sz(l)) rep(j, sz(r)) p[i + j] += l[i] * r[j];
       l.swap(p);
    } else {
       // FFT multiplication
@@ -60,7 +60,7 @@ Poly invert(const Poly &P, int n) {
    assert(!P.empty() && P[0].x);
    Poly tmp{P[0]}, ret = {P[0].inv()};
    for (int i = 1; i < n; i *= 2) {
-      rep(j, i, min(i * 2, sz(P))) tmp.pb(P[j]);
+      fwd(j, i, min(i * 2, sz(P))) tmp.push_back(P[j]);
       (ret *= Poly{2} - tmp * ret).resize(i * 2);
    }
    ret.resize(n);
@@ -118,7 +118,7 @@ Poly pow(Poly a, ll e, const Poly &m) {
 // Derivate polynomial; time: O(n)
 Poly derivate(Poly P) {
    if (!P.empty()) {
-      rep(i, 1, sz(P)) P[i - 1] = P[i] * i;
+      fwd(i, 1, sz(P)) P[i - 1] = P[i] * i;
       P.pop_back();
    }
    return P;
@@ -127,7 +127,7 @@ Poly derivate(Poly P) {
 // Integrate polynomial; time: O(n)
 Poly integrate(Poly P) {
    if (!P.empty()) {
-      P.pb(0);
+      P.push_back(0);
       for (int i = sz(P); --i;)
          P[i] = P[i - 1] / i;
       P[0] = 0;
@@ -147,7 +147,7 @@ Poly exp(Poly P, int n) {
    assert(P.empty() || !P[0].x);
    Poly tmp{P[0] + 1}, ret = {1};
    for (int i = 1; i < n; i *= 2) {
-      rep(j, i, min(i * 2, sz(P))) tmp.pb(P[j]);
+      fwd(j, i, min(i * 2, sz(P))) tmp.push_back(P[j]);
       (ret *= (tmp - log(ret, i * 2))).resize(i * 2);
    }
    ret.resize(n);
@@ -172,7 +172,7 @@ bool sqrt(Poly &P, int n) {
 
    Poly tmp{P[tail]}, ret = {sq};
    for (int i = 1; i < n - tail / 2; i *= 2) {
-      rep(j, i, min(i * 2, sz(P) - tail)) tmp.pb(P[tail + j]);
+      fwd(j, i, min(i * 2, sz(P) - tail)) tmp.push_back(P[tail + j]);
       (ret += tmp * invert(ret, i * 2)).resize(i * 2);
       each(e, ret) e /= 2;
    }
@@ -188,7 +188,7 @@ Poly shift(Poly P, Zp c) {
    int n = sz(P);
    Poly Q(n, 1);
    Zp fac = 1;
-   rep(i, 1, n) {
+   fwd(i, 1, n) {
       P[i] *= (fac *= i);
       Q[n - i - 1] = Q[n - i] * c / i;
    }
@@ -197,7 +197,7 @@ Poly shift(Poly P, Zp c) {
       return {};
    P.erase(P.begin(), P.begin() + n - 1);
    fac = 1;
-   rep(i, 1, n) P[i] /= (fac *= i);
+   fwd(i, 1, n) P[i] /= (fac *= i);
    return P;
 }
 
@@ -205,11 +205,11 @@ Poly shift(Poly P, Zp c) {
 Poly chirpz(Poly P, Zp x, int n) {
    int k = sz(P);
    Poly Q(n + k);
-   rep(i, 0, n + k) Q[i] = x.pow(i * (i - 1) / 2);
-   rep(i, 0, k) P[i] /= Q[i];
+   rep(i, n + k) Q[i] = x.pow(i * (i - 1) / 2);
+   rep(i, k) P[i] /= Q[i];
    reverse(all(P));
    P *= Q;
-   rep(i, 0, n) P[i] = P[k + i - 1] / Q[i];
+   rep(i, n) P[i] = P[k + i - 1] / Q[i];
    P.resize(n);
    return P;
 }
@@ -221,15 +221,15 @@ Poly eval(const Poly &P, Poly points) {
       len *= 2;
 
    vector<Poly> tree(len * 2, {1});
-   rep(i, 0, sz(points)) tree[len + i] = {-points[i], 1};
+   rep(i, sz(points)) tree[len + i] = {-points[i], 1};
 
    for (int i = len; --i;)
       tree[i] = tree[i * 2] * tree[i * 2 + 1];
 
    tree[0] = P;
-   rep(i, 1, len * 2) tree[i] = tree[i / 2] % tree[i];
+   fwd(i, 1, len * 2) tree[i] = tree[i / 2] % tree[i];
 
-   rep(i, 0, sz(points)) {
+   rep(i, sz(points)) {
       auto &vec = tree[len + i];
       points[i] = vec.empty() ? 0 : vec[0];
    }
@@ -244,15 +244,15 @@ Poly interpolate(const vector<pair<Zp, Zp>> &P) {
       len *= 2;
 
    vector<Poly> mult(len * 2, {1}), tree(len * 2);
-   rep(i, 0, sz(P)) mult[len + i] = {-P[i].x, 1};
+   rep(i, sz(P)) mult[len + i] = {-P[i].x, 1};
 
    for (int i = len; --i;)
       mult[i] = mult[i * 2] * mult[i * 2 + 1];
 
    tree[0] = derivate(mult[1]);
-   rep(i, 1, len * 2) tree[i] = tree[i / 2] % mult[i];
+   fwd(i, 1, len * 2) tree[i] = tree[i / 2] % mult[i];
 
-   rep(i, 0, sz(P)) tree[len + i][0] = P[i].y / tree[len + i][0];
+   rep(i, sz(P)) tree[len + i][0] = P[i].y / tree[len + i][0];
 
    for (int i = len; --i;)
       tree[i] = tree[i * 2] * mult[i * 2 + 1] + mult[i * 2] * tree[i * 2 + 1];

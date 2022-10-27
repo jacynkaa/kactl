@@ -21,16 +21,16 @@
 
 struct ALCS {
    string A, B;
-   vector<Vi> ih;
+   vector<vi> ih;
 
    // Precompute compressed matrix; time: O(nm)
    ALCS(string s, string t) : A(s), B(t) {
       int n = sz(A), m = sz(B);
-      ih.resize(n + 1, Vi(m + 1));
+      ih.resize(n + 1, vi(m + 1));
       iota(all(ih[0]), 0);
-      rep(l, 1, n + 1) {
+      fwd(l, 1, n + 1) {
          int iv = 0;
-         rep(j, 1, m + 1) {
+         fwd(j, 1, m + 1) {
             if (A[l - 1] != B[j - 1]) {
                ih[l][j] = max(ih[l - 1][j], iv);
                iv = min(ih[l - 1][j], iv);
@@ -48,7 +48,7 @@ struct ALCS {
    // or compute all answers for fixed `i`.
    int operator()(int i, int j, int k) {
       int ret = 0;
-      rep(q, j, k) ret += (ih[i][q + 1] <= j);
+      fwd(q, j, k) ret += (ih[i][q + 1] <= j);
       return ret;
    }
 
@@ -58,7 +58,7 @@ struct ALCS {
       string ret;
       while (i > 0 && j < k) {
          if (ih[i][k--] <= j) {
-            ret.pb(B[k]);
+            ret.push_back(B[k]);
             while (A[--i] != B[k])
                ;
          }
@@ -71,9 +71,9 @@ struct ALCS {
    // and all prefixes of given suffix of B.
    // Returns vector L of length |B|+1 s.t.
    // L[k] = |LCS(A[:i), B[j:k))|; time: O(|B|)
-   Vi row(int i, int j) {
-      Vi ret(sz(B) + 1);
-      rep(k, j + 1, sz(ret)) ret[k] = ret[k - 1] + (ih[i][k] <= j);
+   vi row(int i, int j) {
+      vi ret(sz(B) + 1);
+      fwd(k, j + 1, sz(ret)) ret[k] = ret[k - 1] + (ih[i][k] <= j);
       return ret;
    }
 };

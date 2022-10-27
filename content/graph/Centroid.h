@@ -41,11 +41,11 @@ struct CentroidTree {
 
 	void layer(vector<vi>& G, int v,
 	           int p, int c, int d) {
-		ind[v].pb(sz(subtree[c]));
-		subtree[c].pb(v); dists[c].pb(d);
-		dir[c].pb(sz(neigh[c])-1); // possibly add extra functionalities here
+		ind[v].push_back(sz(subtree[c]));
+		subtree[c].push_back(v); dists[c].push_back(d);
+		dir[c].push_back(sz(neigh[c])-1); // possibly add extra functionalities here
 		for(auto e: G[v]) if (e != p && par[e] == -2) {
-			if (v == c) neigh[c].pb(e);
+			if (v == c) neigh[c].push_back(e);
 			layer(G, e, v, c, d+1);
 		}
 	}
@@ -66,7 +66,7 @@ struct CentroidTree {
 
 		for(auto e: G[v]) if (par[e] == -2) {
 			int j = decomp(G, e, d+1);
-			child[v].pb(j);
+			child[v].push_back(j);
 			par[j] = v;
 		}
 		return v;

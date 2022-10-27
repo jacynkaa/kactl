@@ -61,7 +61,7 @@ struct MCMF {
 			for (int i : red[s]) if (!seen[i])
 				relax(i, flow[i][s], -cost[i][s], 0);
 		}
-		rep(i,0,N) pi[i] = min(pi[i] + dist[i], INF);
+		rep(i,N) pi[i] = min(pi[i] + dist[i], INF);
 	}
 
 	pair<ll, ll> maxflow(int s, int t) {
@@ -75,7 +75,7 @@ struct MCMF {
 				if (r) flow[p][x] += fl;
 				else flow[x][p] -= fl;
 		}
-		rep(i,0,N) rep(j,0,N) totcost += cost[i][j] * flow[i][j];
+		rep(i,N) rep(j,N) totcost += cost[i][j] * flow[i][j];
 		return {totflow, totcost};
 	}
 
@@ -84,7 +84,7 @@ struct MCMF {
 		fill(all(pi), INF); pi[s] = 0;
 		int it = N, ch = 1; ll v;
 		while (ch-- && it--)
-			rep(i,0,N) if (pi[i] != INF)
+			rep(i,N) if (pi[i] != INF)
 				for (int to : ed[i]) if (cap[i][to])
 					if ((v = pi[i] + cost[i][to]) < pi[to])
 						pi[to] = v, ch = 1;

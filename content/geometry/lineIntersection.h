@@ -1,5 +1,5 @@
 /**
- * Author: Victor Lecomte, chilli
+ * Author: victor Lecomte, chilli
  * Date: 2019-05-05
  * License: CC0
  * Source: https://vlecomte.github.io/cp-geo.pdf
