@@ -15,8 +15,8 @@
 
 vector<P> edgeSeq(vector<P> p, vector<P>& edges) {
 	int i = 0, n = sz(p);
-	rep(j, 0, n) if (tie(p[i].y, p[i].x) > tie(p[j].y, p[j].x)) i = j;
-	rep(j, 0, n) edges.push_back(p[(i+j+1)%n] - p[(i+j)%n]);
+	rep(j, n) if (tie(p[i].y, p[i].x) > tie(p[j].y, p[j].x)) i = j;
+	rep(j, n) edges.push_back(p[(i+j+1)%n] - p[(i+j)%n]);
 	return p[i];
 }
 
