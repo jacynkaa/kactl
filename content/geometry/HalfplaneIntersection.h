@@ -34,7 +34,7 @@ bool parallel(Line a, Line b) {return !a.wek(b);}
 bool same(Line a, Line b) {
 	return parallel(a,b) && !a.vy().cross(b.vy()) && !a.vx().cross(b.vx());
 }
-ll weaker (Line a, Line b) { 
+T weaker (Line a, Line b) { 
 	if (abs(a.a) > abs(a.b)) return a.c*abs(b.a) - b.c*abs(a.a);
 	return a.c*abs(b.b) - b.c*abs(a.b);
 }
@@ -96,7 +96,7 @@ struct HPI {
 			vector<Line> r(all(s));
 			if(sz(r) == 2 && parallel(r[0], r[1]) && weaker(r[0],-r[1])<0) 
 				return 0; 
-			rep(i, sz(r)) rep(j, i) if(same(r[i], r[j])) {
+			rep(i, 0, sz(r)) rep(j, 0, i) if(same(r[i], r[j])) {
 				if(sz(r) == 2) return 4;	if(sz(r) == 3) return 3;
 				if(sz(r) == 4 && same(r[0], r[2]) && same(r[1], r[3])) return 1;
 				return 2;

@@ -19,7 +19,7 @@ vi perfectEliminationOrder(vector<vi>& g) { // 0-indexed, adj list
 	int top = 0, n = sz(g);
 	vi ord, vis(n), indeg(n);
 	vector<vi> bucket(n);
-	rep(i,n) bucket[0].push_back(i);
+	rep(i, 0, n) bucket[0].push_back(i);
 	for(int i = 0; i < n; ) {
 		while(bucket[top].empty()) --top;
 		int u = bucket[top].back();
@@ -41,9 +41,9 @@ vi perfectEliminationOrder(vector<vi>& g) { // 0-indexed, adj list
 bool isChordal(vector<vi>& g, vi ord) {//ord = perfectEliminationOrder(g)
 	int n = sz(g);
 	set<pii> edg;
-	rep(i,n) for(auto v:g[i]) edg.insert({i,v});
-	vi pos(n); rep(i,n) pos[ord[i]] = i;
-	rep(u,n){
+	rep(i, 0, n) for(auto v:g[i]) edg.insert({i,v});
+	vi pos(n); rep(i, 0, n) pos[ord[i]] = i;
+	rep(u, 0, n){
 		int mn = n;
 		for(auto v : g[u]) if(pos[u] < pos[v]) mn = min(mn, pos[v]);
 		if(mn != n) {
