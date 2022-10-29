@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define rep(i, from, to) for (int i = from; i < (to); ++i)
+#define fwd(i, from, to) for (int i = (from); i < (to); ++i)
+#define rep(i,n) fwd(i,0,n)
 #define all(x) x.begin(), x.end()
 #define sz(x) (int)(x).size()
 typedef long long ll;

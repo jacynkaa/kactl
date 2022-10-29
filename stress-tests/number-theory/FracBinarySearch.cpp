@@ -3,9 +3,9 @@
 #include "../../content/number-theory/FracBinarySearch.h"
 
 int main() {
-	rep(n,1,300) {
+	fwd(n,1,300) {
 		vector<pair<double, pii>> v;
-		rep(i,0,n+1) rep(j,1,n+1) if (__gcd(i,j) == 1) {
+		rep(i,n+1) fwd(j,1,n+1) if (__gcd(i,j) == 1) {
 			double r = (double)i / j;
 			v.emplace_back(r, pii(i,j));
 		}
@@ -13,7 +13,7 @@ int main() {
 		sort(all(v));
 		map<double, pii> actual(all(v));
 
-		rep(iter,0,100000) {
+		fwd(iter,0,100000) {
 			double x = rand() / (RAND_MAX + 1.0);
 			// x *= min(n, 10); // if testing with search range (0, n)
 			auto fn = [&](Frac f) { return (double)f.p >= x * (double)f.q; };

@@ -4,15 +4,15 @@
 
 int main() {
 	const int lim = 100;
-	rep(m,1,lim) {
-		rep(a,0,lim) {
+	fwd(m,1,lim) {
+		rep(a,lim) {
 			vector<ll> ans(m, -1);
 			ll b = a % m;
-			rep(x,1,max(m,2)) {
+			fwd(x,1,max(m,2)) {
 				if (ans[b] == -1) ans[b] = x;
 				b = b * a % m;
 			}
-			rep(b,0,m) {
+			rep(b,m) {
 				ll res = modLog(a, b, m);
 				if (ans[b] != res) {
 					cerr << "FAIL" << endl;

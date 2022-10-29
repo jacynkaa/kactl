@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define rep(i, a, b) for(int i = a; i < int(b); ++i)
+#define fwd(i, a, b) for(int i = a; i < int(b); ++i)
+#define rep(i, n) fwd(i,0,n)
 #define all(x) x.begin(), x.end()
 #define sz(x) (int)(x).size()
 
@@ -40,12 +41,12 @@ bool eq(P a, P b) {
 const int NUMPOLY=100;
 const int PTPERPOLY=100;
 void test(int numPts, int range) {
-    rep(i,0,NUMPOLY) {
+    rep(i,NUMPOLY) {
         vector<P> poly;
-        rep(j,0, numPts)
+        rep(j, numPts)
             poly.push_back(P(rand()%range, rand()%range));
         poly = genPolygon(poly);
-        rep(i,0,PTPERPOLY){
+        rep(i,PTPERPOLY){
             P p(rand()%range, rand()%range);
             assert(inPolygon(poly, p, true) == old::insidePolygon(all(poly), p, true));
             assert(inPolygon(poly, p, false) == old::insidePolygon(all(poly), p, false));
