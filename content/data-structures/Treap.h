@@ -9,7 +9,6 @@
  * Status: stress-tested
  */
 #pragma once
-
 struct Node {
 	Node *l = 0, *r = 0;
 	int val, y, c = 1;
@@ -20,28 +19,24 @@ struct Node {
 int cnt(Node* n) { return n ? n->c : 0; }
 void Node::recalc() { c = cnt(l) + cnt(r) + 1; }
 
-template<class F> void each(Node* n, F f) {
-	if (n) { each(n->l, f); f(n->val); each(n->r, f); }
-}
-
 pair<Node*, Node*> split(Node* n, int k) {
-	if (!n) return {};
+	if (!n) return {}; /* pushdown() for lazy if needed */
 	if (cnt(n->l) >= k) { // "n->val >= k" for lower_bound(k)
 		auto pa = split(n->l, k);
-		n->l = pa.second;
+		n->l = pa.nd;
 		n->recalc();
-		return {pa.first, n};
+		return {pa.st, n};
 	} else {
 		auto pa = split(n->r, k - cnt(n->l) - 1); // and just "k"
-		n->r = pa.first;
+		n->r = pa.st;
 		n->recalc();
-		return {n, pa.second};
+		return {n, pa.nd};
 	}
 }
 
 Node* merge(Node* l, Node* r) {
 	if (!l) return r;
-	if (!r) return l;
+	if (!r) return l; /* pushdown() */
 	if (l->y > r->y) {
 		l->r = merge(l->r, r);
 		l->recalc();
@@ -55,7 +50,11 @@ Node* merge(Node* l, Node* r) {
 
 Node* ins(Node* t, Node* n, int pos) {
 	auto pa = split(t, pos);
-	return merge(merge(pa.first, n), pa.second);
+	return merge(merge(pa.st, n), pa.nd);
+}
+
+template<class F> void each(Node* n, F f) {
+	if (n) { /*pushdown()*/ each(n->l, f); f(n->val); each(n->r, f); }
 }
 
 // Example application: move the range [l, r) to index k
