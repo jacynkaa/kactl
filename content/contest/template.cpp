@@ -3,8 +3,8 @@ using namespace std;
 
 #define fwd(i, a, n) for (int i = (a); i < (n); i++)
 #define rep(i, n) fwd(i, 0, n)
-#define all(X) (X).begin(), (X).end()
-#define sz(X) (int)(X.size())
+#define all(X) begin(X),end(X)
+#define sz(X) ssize(X)
 #define st first
 #define nd second
 #define pii pair<int, int>
@@ -29,5 +29,4 @@ void dump(auto... x) { ((cerr << x << ", "), ...) << '\n'; }
 
 int32_t main() {
    ios_base::sync_with_stdio(0), cin.tie(0);
-   // g++ -std=c++17 -DLOC -Wfatal-errors -Wall -O3 sol.cpp -osol
-   // add flag -fconcepts to get rid of warnings related to the auto keyword in debug (only applicable to certain g++ versions)
+   // g++ -std=c++20 -DLOC -Wfatal-errors -Wall -O3 sol.cpp -osol
