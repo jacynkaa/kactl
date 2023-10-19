@@ -22,15 +22,15 @@ If $a_n = c_1 a_{n-1} + \dots + c_k a_{n-k}$, and $r_1, \dots, r_k$ are distinct
 Non-distinct roots $r$ become polynomial factors, e.g. $a_n = (d_1n + d_2)r^n$.
 
 \section{Trigonometry}
+\scalebox{0.7}{\parbox{\linewidth}{
 \begin{align*}
-\sin(v+w)&{}=\sin v\cos w+\cos v\sin w\\
-\cos(v+w)&{}=\cos v\cos w-\sin v\sin w\\
-\end{align*}
-\begin{align*}
-\tan(v+w)&{}=\dfrac{\tan v+\tan w}{1-\tan v\tan w}\\
-\sin v+\sin w&{}=2\sin\dfrac{v+w}{2}\cos\dfrac{v-w}{2}\\
-\cos v+\cos w&{}=2\cos\dfrac{v+w}{2}\cos\dfrac{v-w}{2}
-\end{align*}
+\sin(v\pm w) =\sin v\cos w\pm \cos v\sin w &&& \cos(v\pm w) =\cos v\cos w\mp \sin v\sin w\\
+\sin v+\sin w =2\sin\dfrac{v+w}{2}\cos\dfrac{v-w}{2} &&& \cos v+\cos w =2\cos\dfrac{v+w}{2}\cos\dfrac{v-w}{2} \\
+|\sin \frac{x}{2}| = \sqrt{\frac{1-\cos x}{2}} &&& |\cos \frac{x}{2}| = \sqrt{\frac{1+\cos x}{2}} \\
+\tan(v\pm w) =\dfrac{\tan v\pm\tan w}{1\mp\tan v\tan w} &&& |\tan \frac{x}{2}| = \sqrt{\frac{1-\cos x}{1+\cos x}} \\ 
+\end{align*} 
+}}
+
 \[ (V+W)\tan(v-w)/2{}=(V-W)\tan(v+w)/2 \]
 where $V, W$ are lengths of sides opposite angles $v, w$.
 \begin{align*}
@@ -75,15 +75,16 @@ z = r\cos\theta & \phi = \textrm{atan2}(y,x)
 \section{Derivatives/Integrals}
 \scalebox{0.7}{\parbox{\linewidth}{
 \begin{align*}
-        \int \sqrt{a^2-x^2} dx = \frac{x}{2}\sqrt{a^2-x^2} + \frac{a^2}{2}\arcsin\frac{x}{|a|} &&& \int \sqrt{a^2+x^2} dx = \frac{x}{2}\sqrt{a^2+x^2} + \frac{a^2}{2}\ln (x+\sqrt{a^2+x^2})  \\
+        \int \sqrt{a^2+x^2} dx = \frac{x}{2}\sqrt{a^2+x^2} + \frac{a^2}{2}\ln (x+\sqrt{a^2+x^2}) &&&  \int \sqrt{a^2-x^2} dx = \frac{x}{2}\sqrt{a^2-x^2} + \frac{a^2}{2}\arcsin\frac{x}{|a|} \\
         \int \frac{dx}{\sqrt{a^2-x^2}} = \arcsin\frac{x}{|a|} = -\arccos\frac{x}{|a|}  &&& \int \frac{dx}{\sqrt{a^2+x^2}} = \ln (x+\sqrt{a^2+x^2}) \\
-        \text{Sub } s = \tan(x/2) \text{ to get } dx =  \frac{2\ ds}{1+s^2}, &&& \ \sin x = \frac{2s}{1+s^2},\ \cos x = \frac{1-s^2}{1+s^2} \\ 
+        \text{Sub } s = \tan(x/2) \text{ to get: } dx =  \frac{2\ ds}{1+s^2}, &&& \ \sin x = \frac{2s}{1+s^2},\ \cos x = \frac{1-s^2}{1+s^2} \\ 
+         \int_a^bf(x)g(x)dx = [F(x)g(x)]_a^b-\int_a^bF(x)g'(x)dx &&& \text{(Integration by parts)} \\
         \int\tan ax = -\dfrac{\ln|\cos ax|}{a} &&& \int x\sin ax = \dfrac{\sin ax-ax \cos ax}{a^2} \\
         \int e^{-x^2} = \frac{\sqrt \pi}{2} \text{erf}(x), \ \ \int xe^{ax}dx = \frac{e^{ax}}{a^2}(ax-1) &&&\dfrac{d}{dx}\tan x = 1+\tan^2x, \ \  \dfrac{d}{dx}\arctan x = \dfrac{1}{1+x^2} \\
-\end{align*}
+        \text{Curve length: } \int_a^b\sqrt{1+(f'(x))^2}dx &&& \text{When } X(t), Y(t): \int_a^b\sqrt{(X'(t))^2+(Y'(t))^2}dt\\
+        \text{Solid of revolution vol: } \pi\int_a^b(f(x))^2dx &&& \text{Surface area: } 2\pi\int_a^b|f(x)|\sqrt{1+(f'(x))^2}dx\\
+    \end{align*}
 }}
-Integration by parts:
-\[\int_a^bf(x)g(x)dx = [F(x)g(x)]_a^b-\int_a^bF(x)g'(x)dx\]
 
 \section{Sums}
 \[ c^a + c^{a+1} + \dots + c^{b} = \frac{c^{b+1} - c^a}{c-1}, c \neq 1 \]
