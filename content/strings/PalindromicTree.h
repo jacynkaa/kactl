@@ -34,15 +34,15 @@ struct PalTree {
 			link.push_back(to[ext(link[last])][x]);
 			to[last][x] = sz(to);
 			to.push_back({});
-			diff.push_back(len.back() - len[link.back()]); 	                //[DP]
-			slink.push_back(diff.back() == diff[link.back()] ? 	            //[DP]
+			diff.push_back(len.back() - len[link.back()]);	            //[DP]
+			slink.push_back(diff.back() == diff[link.back()] ?	        //[DP]
 				slink[link.back()] : link.back());                      //[DP]
-			series.push_back(0);	                                            //[DP]
+			series.push_back(0);	                                    //[DP]
 		}
 		last = to[last][x];
-		ans.push_back(INT_MAX);		                                        //[DP]
-		for(int i = last; len[i] > 0; i = slink[i]) {		            //[DP]
-			series[i] = ans[sz(ans) - len[slink[i]] - diff[i] - 1]; 	//[DP]
+		ans.push_back(INT_MAX);	 	                                    //[DP]
+		for(int i = last; len[i] > 0; i = slink[i]) {	                //[DP]
+			series[i] = ans[sz(ans) - len[slink[i]] - diff[i] - 1];     //[DP]
 			if(diff[i] == diff[link[i]])	                            //[DP]
 				series[i] = min(series[i], series[link[i]]);            //[DP]
 			//For even only palindromes set ans only for even sz(txt)	//[DP]
