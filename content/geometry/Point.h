@@ -9,7 +9,8 @@
  */
 #pragma once
 
-template <class T> int sgn(T x) { return (x > 0) - (x < 0); }
+
+int sgn(long long x) { return (x>0) - (x<0); } // floats compare with eps
 template<class T>
 struct Point {
 	typedef Point P;
