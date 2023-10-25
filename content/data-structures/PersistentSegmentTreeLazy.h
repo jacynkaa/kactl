@@ -9,30 +9,30 @@
  * Status: tested a bit (not much)
  */
 
-struct lazypseg {
+struct LazyPSegmentTree { // default: update +, query max
 	typedef int val;
 	val idntV = 0; // identity value
 	val fV(val l, val r) {
-		return idntV; // implement combining values
+		return max(l, r); // implement combining values
 	}
-	typedef int lzy; // lazy
-	lzy idntL = 0;
-	lzy fL(lzy prv, lzy nxt) {
-		return idntL; // implement combining lazy
+	typedef int lazy;
+	lazy idntL = 0;
+	lazy fL(lazy prv, lazy nxt) {
+		return prv + nxt; // implement combining lazy
 	}
-	val apl(val x, lzy lz) {
-		return idntV; // implement applying lazy
+	val apl(val x, lazy lz) {
+		return x + lz; // implement applying lazy
 	}
 	struct node {
 		int l = 0, r = 0;
 		val x;
-		lzy lz;
-		node(val x, lzy lz) : x(x), lz(lz) {
+		lazy lz;
+		node(val x, lazy lz) : x(x), lz(lz) {
 		}
 	};
 	int N;
 	vector<node> t;
-	lazypseg(int N) : N(N) {
+	LazyPSegmentTree(int N) : N(N) {
 		t.push_back(
 			node(idntV, idntL)); // 0th node is the root of an empty tree
 								 // t.reserve() in case of memory issues
@@ -44,12 +44,12 @@ struct lazypseg {
 		t.push_back(V);
 		return sz(t) - 1;
 	}
-	void aplV(int v, lzy lz) {
+	void aplV(int v, lazy lz) {
 		V.lz = fL(V.lz, lz);
 		V.x = apl(V.x, lz);
 	}
 	// creates 4 * lgN +- eps new nodes
-	int upd(int v, int l, int r, lzy lz, int a = 0, int b = -1, int u = -1) {
+	int upd(int v, int l, int r, lazy lz, int a = 0, int b = -1, int u = -1) {
 		if (u == -1) {
 			u = cpy(v);
 			b = N - 1;

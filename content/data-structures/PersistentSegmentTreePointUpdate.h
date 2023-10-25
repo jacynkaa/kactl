@@ -9,11 +9,11 @@
  * Status: tested on https://codeforces.com/contest/813/problem/E
  */
 
-struct pseg {
+struct PSegmentTree { // default: update set_pos, query sum
 	typedef int val;
 	val idnt = 0; // identity value
 	val f(val l, val r) {
-		return idnt; // implement this!
+		return l + r; // implement this!
 	}
 	struct node {
 		int l = 0, r = 0;
@@ -23,7 +23,7 @@ struct pseg {
 	};
 	int N;
 	vector<node> t;
-	pseg(int N) : N(N) {
+	PSegmentTree(int N) : N(N) {
 		t.push_back(node(idnt)); // 0th node is the root of an empty tree
 								 // t.reserve() in case of memory issues
 	}
