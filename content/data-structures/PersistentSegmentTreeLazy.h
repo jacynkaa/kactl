@@ -37,16 +37,13 @@ struct LazyPSegmentTree { // default: update +, query max
 			node(idntV, idntL)); // 0th node is the root of an empty tree
 								 // t.reserve() in case of memory issues
 	}
-// careful to not use V and U somewhere later
-#define V t[v]
-#define U t[u]
 	int cpy(int v) {
-		t.push_back(V);
+		t.push_back(t[v]);
 		return sz(t) - 1;
 	}
 	void aplV(int v, lazy lz) {
-		V.lz = fL(V.lz, lz);
-		V.x = apl(V.x, lz);
+		t[v].lz = fL(t[v].lz, lz);
+		t[v].x = apl(t[v].x, lz);
 	}
 	// creates 4 * lgN +- eps new nodes
 	int upd(int v, int l, int r, lazy lz, int a = 0, int b = -1, int u = -1) {
@@ -61,14 +58,14 @@ struct LazyPSegmentTree { // default: update +, query max
 			return u;
 		}
 		int c = (a + b) / 2;
-		U.l = cpy(V.l);
-		U.r = cpy(V.r);
-		aplV(U.l, U.lz);
-		aplV(U.r, U.lz);
-		upd(V.l, l, r, lz, a, c, U.l);
-		upd(V.r, l, r, lz, c + 1, b, U.r);
-		U.lz = idntL;
-		U.x = fV(t[U.l].x, t[U.r].x);
+		t[u].l = cpy(t[v].l);
+		t[u].r = cpy(t[v].r);
+		aplV(t[u].l, t[u].lz);
+		aplV(t[u].r, t[u].lz);
+		upd(t[v].l, l, r, lz, a, c, t[u].l);
+		upd(t[v].r, l, r, lz, c + 1, b, t[u].r);
+		t[u].lz = idntL;
+		t[u].x = fV(t[t[u].l].x, t[t[u].r].x);
 		return u;
 	}
 	// doesn't create new nodes
@@ -78,8 +75,10 @@ struct LazyPSegmentTree { // default: update +, query max
 		if (!v || l > cr || r < cl)
 			return idntV;
 		if (cl >= l && cr <= r)
-			return V.x;
+			return t[v].x;
 		int m = (cl + cr) / 2;
-		return apl(fV(get(V.l, l, r, cl, m), get(V.r, l, r, m + 1, cr)), V.lz);
+		return apl(
+			fV(get(t[v].l, l, r, cl, m), get(t[v].r, l, r, m + 1, cr)),
+			t[v].lz);
 	}
 };

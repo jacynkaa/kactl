@@ -27,11 +27,8 @@ struct PSegmentTree { // default: update add, query val
 		t.push_back(node(idnt)); // 0th node is the root of an empty tree
 								 // t.reserve() in case of memory issues
 	}
-// careful to not use V and U somewhere later
-#define V t[v]
-#define U t[u]
 	int cpy(int v) {
-		t.push_back(V);
+		t.push_back(t[v]);
 		return sz(t) - 1;
 	}
 	// creates 4 * lgN +- eps new nodes
@@ -41,22 +38,22 @@ struct PSegmentTree { // default: update add, query val
 			return v;
 		int u = cpy(v);
 		if (a >= l && b <= r) {
-			U.x = f(U.x, x);
+			t[u].x = f(t[u].x, x);
 			return u;
 		}
 		int c = (a + b) / 2;
-		U.l = upd(V.l, l, r, x, a, c);
-		U.r = upd(V.r, l, r, x, c + 1, b);
+		t[u].l = upd(t[v].l, l, r, x, a, c);
+		t[u].r = upd(t[v].r, l, r, x, c + 1, b);
 		return u;
 	}
 	// doesn't create new nodes
 	val get(int v, int p, int a = 0, int b = -1) {
 		b = ~b ? b : N - 1;
 		if (a == b)
-			return V.x;
+			return t[v].x;
 		int c = (a + b) / 2;
 		if (p <= c)
-			return f(V.x, get(V.l, p, a, c));
-		return f(V.x, get(V.r, p, c + 1, b));
+			return f(t[v].x, get(t[v].l, p, a, c));
+		return f(t[v].x, get(t[v].r, p, c + 1, b));
 	}
 };

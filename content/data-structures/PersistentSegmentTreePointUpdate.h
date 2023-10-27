@@ -27,11 +27,8 @@ struct PSegmentTree { // default: update set_pos, query sum
 		t.push_back(node(idnt)); // 0th node is the root of an empty tree
 								 // t.reserve() in case of memory issues
 	}
-// careful to not use V and U somewhere later
-#define V t[v]
-#define U t[u]
 	int cpy(int v) {
-		t.push_back(V);
+		t.push_back(t[v]);
 		return sz(t) - 1;
 	}
 	// creates lgN +- eps new nodes
@@ -39,15 +36,15 @@ struct PSegmentTree { // default: update set_pos, query sum
 		b = ~b ? b : N - 1;
 		int u = cpy(v);
 		if (a == b) {
-			U.x = x; // change something here if not swaping values
+			t[u].x = x; // change something here if not swaping values
 			return u;
 		}
 		int c = (a + b) / 2;
 		if (p <= c)
-			U.l = upd(V.l, p, x, a, c);
+			t[u].l = upd(t[v].l, p, x, a, c);
 		else
-			U.r = upd(V.r, p, x, c + 1, b);
-		U.x = f(t[U.l].x, t[U.r].x);
+			t[u].r = upd(t[v].r, p, x, c + 1, b);
+		t[u].x = f(t[t[u].l].x, t[t[u].r].x);
 		return u;
 	}
 	// doesn't create new nodes
@@ -56,8 +53,8 @@ struct PSegmentTree { // default: update set_pos, query sum
 		if (!v || l > b || r < a)
 			return idnt;
 		if (a >= l && b <= r)
-			return V.x;
+			return t[v].x;
 		int c = (a + b) / 2;
-		return f(get(V.l, l, r, a, c), get(V.r, l, r, c + 1, b));
+		return f(get(t[v].l, l, r, a, c), get(t[v].r, l, r, c + 1, b));
 	}
 };
