@@ -15,13 +15,14 @@
  */
 #pragma once
 
-#include "../data-structures/LazySegmentTree.h"
+#include "MyLazyTree.h" // make some sort of tree or whatever you like
+//this tree should support add(l, r, x) -> add on [l, r) and query(l, r)
 
 template <bool VALS_EDGES> struct HLD {
 	int N, tim = 0;
 	vector<vi> adj;
 	vi par, siz, depth, rt, pos;
-	Node *tree; // right-opened intervals [l,r),
+	MyLazyTree *tree; // right-opened intervals [l,r),
 	HLD(vector<vi> adj_)
 		: N(sz(adj_)), adj(adj_), par(N, -1), siz(N, 1), depth(N),
 		  rt(N),pos(N),tree(new Node(0, N)){ dfsSz(0); dfsHld(0); }

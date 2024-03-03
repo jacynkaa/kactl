@@ -26,19 +26,22 @@ vi coverHK(vector<vi>& g, int n, int m) {
 
 int main() {
 	fwd(it,0,300000) {
-		int N = rand() % 20, M = rand() % 20;
+		int N = rand() % 100, M = rand() % 100;
 		int prop = rand();
-		vector<vi> gr(N);
+		vector<vi> gr1(N);
+		vector<vi> gr2(N + M);
 		vi left(N), right(M);
 		rep(i,N) rep(j,M) if (rand() < prop) {
-			gr[i].push_back(j);
+			gr1[i].push_back(j);
+			gr2[i].push_back(j + N);
+			gr2[j + N].push_back(i);
 		}
 		auto verify = [&](vi& cover) {
 			for(auto &x: cover) {
 				if (x < N) left[x] = 1;
 				else right[x - N] = 1;
 			}
-			rep(i,N) if (!left[i]) for(auto &j:gr[i]) {
+			rep(i,N) if (!left[i]) for(auto &j:gr1[i]) {
 				assert(right[j]);
 				/* if (!right[j]) {
 					cout << N << ' ' << M << endl;
@@ -49,8 +52,8 @@ int main() {
 				} */
 			}
 		};
-		vi cover1 = cover(gr, N, M);
-		vi cover2 = coverHK(gr, N, M);
+		vi cover1 = cover(gr2, N, M);
+		vi cover2 = coverHK(gr1, N, M);
 		assert(sz(cover1) == sz(cover2));
 		verify(cover1);
 		verify(cover2);

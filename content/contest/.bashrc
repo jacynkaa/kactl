@@ -1,3 +1,6 @@
-alias c='g++ -Wall -Wconversion -Wfatal-errors -g -std=c++14 \
-	-fsanitize=undefined,address'
-xmodmap -e 'clear lock' -e 'keycode 66=less greater' #caps = <>
+compile() {
+	g++ -std=c++17 -Wall -fconcepts -Wextra -Wfatal-errors -Wconversion -DLOC -fsanitize=address,undefined -g -o$1 $1.cpp
+}
+libhash() {
+	cat $1.cpp | cpp -dD -P -fpreprocessed | tr -d '[:space:]'| md5sum |cut -c-6
+}

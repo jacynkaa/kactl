@@ -9,13 +9,13 @@
  */
 #pragma once
 
-#include "DFSMatching.h"
+#include "TurboMatching.h"
 
-vi cover(vector<vi>& g, int n, int m) {
-	vi match(m, -1);
-	int res = dfsMatching(g, match);
-	vector<bool> lfound(n, true), seen(m);
-	for (int it : match) if (it != -1) lfound[it] = false;
+vi cover(vector<vi> &g, int n, int m) { // sizes of left and right sets, g = [left][right]
+	vi match(n + m, -1);
+	int res = turboMatching(g, match);
+	vector<bool> lfound(n, true), seen(n + m);
+	fwd(i, n, n + m) if (match[i] != -1) lfound[match[i]] = false;
 	vi q, cover;
 	rep(i,n) if (lfound[i]) q.push_back(i);
 	while (!q.empty()) {
@@ -27,7 +27,7 @@ vi cover(vector<vi>& g, int n, int m) {
 		}
 	}
 	rep(i,n) if (!lfound[i]) cover.push_back(i);
-	rep(i,m) if (seen[i]) cover.push_back(n+i);
+	fwd(i, n, n + m) if (seen[i]) cover.push_back(i);
 	assert(sz(cover) == res);
 	return cover;
 }
