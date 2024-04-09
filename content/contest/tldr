@@ -1,16 +1,15 @@
-bits/stdc++.h, namespace std
+	bits/stdc++.h, namespace std
 fwd, rep, all, sz, st, nd, pii, vi, ll
-#ifdef LOC
+	#ifdef LOC
 auto SS = signal(6, [](int) { *(int *)0 = 0; }); // better stacktrace
-auto &operator<<(auto &out, pair<auto, auto> a) // print pair
+	auto &operator<<(auto &out, pair<auto, auto> a) // print pair
 auto &operator<<(auto &out, auto a) // print collection
-void dump(auto... x) { ( ( cerr << x << ", " ) , ...) << '\n'; }
+	void dump(auto... x) { ( ( cerr << x << ", " ) , ...) << '\n'; }
 #define debug(x...) cerr << "[" #x "]: ", dump(x)
-#else
+	#else
 #define debug(...) 0
-#endif
+	#endif
 int32_t main() ios_base::sync_with_stdio(0), cin.tie(0);
-// miscellaneous
 mt19937_64 gen(seed); uniform_int_distribution<T> distr(a, b);
 auto my_rand = bind(distr, gen); // my_rand() -> x \in [a, b]
 #pragma GCC optimize("Ofast,unroll-loops")
@@ -18,6 +17,5 @@ auto my_rand = bind(distr, gen); // my_rand() -> x \in [a, b]
 //#pragma GCC optimize ("trapv") kills the program on integer overflows
 // bitset features: _Find_first(), _Find_next(i) (finds AFTER i,not incl)
 #define each(a, x) for (auto &a : (x))
-#define x first
-#define y second
+#define x / y, first / second
 #define mp make_pair
