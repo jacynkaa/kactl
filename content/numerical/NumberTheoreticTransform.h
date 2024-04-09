@@ -21,7 +21,7 @@
 const ll mod = (119 << 23) + 1, root = 62; // = 998244353
 // For p < 2^30 there is also e.g. 5 << 25, 7 << 26, 479 << 21
 // and 483 << 21 (same root). The last two are > 10^9.
-// int128: (2147483641LL<<32) - change inv in conv. Two ll & crt faster
+// int128: (2147483641LL<<32) - but 2xll & crt is faster.
 typedef vector<ll> vl;
 void ntt(vl &a) {
 	int n = sz(a), L = 31 - __builtin_clz(n);
@@ -44,7 +44,7 @@ void ntt(vl &a) {
 vl conv(const vl &a, const vl &b) {
 	if (a.empty() || b.empty()) return {};
 	int s = sz(a) + sz(b) - 1, B = 32 - __builtin_clz(s), n = 1 << B;
-	int inv = modpow(n, mod - 2);
+	ll inv = modpow(n, mod - 2);
 	vl L(a), R(b), out(n);
 	L.resize(n), R.resize(n);
 	ntt(L), ntt(R);
