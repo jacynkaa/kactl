@@ -23,7 +23,10 @@
 		 \[ g(n) = \frac 1 n \sum_{k=0}^{n-1}{f(\text{gcd}(n, k))} = \frac 1 n \sum_{k|n}{f(k)\phi(n/k)}. \]
 
 \section{Partitions and subsets}
-	\subsection{Partition function}
+$$\prod_{n=1}^{\infty}\left(1-x^{n}\right)=1+\sum_{k=1}^\infty(-1)^k\left(x^{k(3k+1)/2}+x^{k(3k-1)/2}\right)$$
+
+
+\subsection{Partition function}
 		Number of ways of writing $n$ as a sum of positive integers, disregarding the order of the summands.
 		\[ p(0) = 1,\ p(n) = \sum_{k \in \mathbb Z \setminus \{0\}}{(-1)^{k+1} p(n - k(3k-1) / 2)} \]
 		\[ p(n) \sim 0.145 / n \cdot \exp(2.56 \sqrt{n}) \]
