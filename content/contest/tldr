@@ -1,6 +1,7 @@
 bits/stdc++.h, namespace std
 fwd, rep, all, sz, st, nd, pii, vi, ll
 #ifdef LOC
+auto SS = signal(6, [](int) { *(int *)0 = 0; }); // better stacktrace
 auto &operator<<(auto &out, pair<auto, auto> a) // print pair
 auto &operator<<(auto &out, auto a) // print collection
 void dump(auto... x) { ( ( cerr << x << ", " ) , ...) << '\n'; }
@@ -15,8 +16,7 @@ auto my_rand = bind(distr, gen); // my_rand() -> x \in [a, b]
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("popcnt,avx,tune=native")
 //#pragma GCC optimize ("trapv") kills the program on integer overflows
-// bitset features: _Find_first(), _Find_next(i) (finds AFTER i, not incl)
-// Piurasy
+// bitset features: _Find_first(), _Find_next(i) (finds AFTER i,not incl)
 #define each(a, x) for (auto &a : (x))
 #define x first
 #define y second
