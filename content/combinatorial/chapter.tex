@@ -106,6 +106,17 @@ $$\prod_{n=1}^{\infty}\left(1-x^{n}\right)=1+\sum_{k=1}^\infty(-1)^k\left(x^{k(3
 		\end{itemize}
 		Catalan convolution: find the count of balanced parentheses sequences consisting of $n+k$ pairs of parentheses where the first $k$ symbols are open brackets.
 		\[ C^k=\frac{k+1}{n+k+1}\binom{2n+k}{n}\]
+    \subsection{LGV Lemma}
+        \begin{itemize}
+            \item $G$ - DAG, $A = \{a_1, \dots, a_n\}, B = \{b_1, \dots, b_n\}$ - subsets of vertices, $\omega_e$ - edge weights.
+            \item $\omega(P)$ - path weight, the product of edge weights in that path.
+            \item Let $M_{a,b} = \sum_{P: a \to b} \omega(P)$ be the sum of path weights over all possible paths from $a$ to $b$ (when unit weights, note this is the number of paths).
+            \item Let $n$-tuple of paths $\mathcal P = (P_1, \dots, P_n): A \to B$ be the set of non-intersecting (by vertices, including also endpoints) paths from $A$ to $B$.
+            There exists $\sigma(\mathcal P)$, such that $P_i \in a_i \to b_{\sigma_i}$.
+        \end{itemize}
+        \small \[\text{Lemma: }\text{det}(M) = \sum_{(P_1, \dots, P_n):A \to B} \text{sgn}(\sigma(\mathcal P)) \prod_{i=1}^n \omega(P_i)\]
+        Particularly useful when only identity permutation is possible.
+
 
 \section{Other}
 \kactlimport{DeBruijn.h}
