@@ -3,8 +3,9 @@
 /**
  *
  * Author: Krzysztof Potępa
- * Description: Poynomials. Implement Zp, or modify to use ll modulo mod.
- *
+ * Description: Poynomials. Implement Zp,
+ * or modify to use ll modulo mod.
+ * Time: see below
  */
 
 using Poly = vector<Zp>;

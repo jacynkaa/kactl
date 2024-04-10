@@ -7,6 +7,7 @@
  *  Simpson's rule. The error should be proportional to $h^4$, although in
  *  practice you will want to verify that the result is stable to desired
  *  precision when epsilon changes.
+ * Time: O(n*\text{eval}(f))
  * Status: mostly untested
  */
 #pragma once
