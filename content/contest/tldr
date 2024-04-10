@@ -16,6 +16,7 @@ auto my_rand = bind(distr, gen); // my_rand() -> x \in [a, b]
 #pragma GCC target("popcnt,avx,tune=native")
 //#pragma GCC optimize ("trapv") kills the program on integer overflows
 // bitset features: _Find_first(), _Find_next(i) (finds AFTER i,not incl)
+// c = x&-x, r = x+c; (((r^x) >> 2)/c) | r = next number after x with same popcnt
 #define each(a, x) for (auto &a : (x))
 #define x / y, first / second
 #define mp make_pair
