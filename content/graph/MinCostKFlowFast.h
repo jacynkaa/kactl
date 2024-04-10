@@ -8,75 +8,75 @@
  * Status: tested on https://codeforces.com/gym/102759/problem/F and kattis:maxflowmincost
  */
 
+#pragma once
+
+// #include <bits/extc++.h> /// include-line, keep-include
+
 struct MCMF {
-	ll INF = 9e18;
+	const ll INF = 2e18;
 	struct edge {
-		int v; ll cap, w, f;
+		int from, to, rev; ll cap, cost, flow;
 	};
-	vector<vi> g;
-	vector<edge> es;
-	vector<ll> dst;
-	vi pre, vis;
-	MCMF(int N) : g(N), dst(N), pre(N), vis(N) {}
-	list<int> q; priority_queue<pair<ll, int>> pq;
-	void push(int v, int dij) {
-		if (dij) pq.push({-dst[v], v});
-		else if (!vis[v]) {
-			if (sz(q) && dst[v] < dst[q.front()]) q.push_front(v);
-			else q.push_back(v);
-			vis[v] = 1;
-		}
+	int N;
+	vector<vector<edge>> ed;
+	vi seen;
+	vector<ll> dist, pi;
+	vector<edge*> par;
+	MCMF(int N) : N(N), ed(N), seen(N), dist(N), pi(N), par(N) {}
+	void addEdge(int from, int to, ll cap, ll cost) {
+		if (from == to) return;
+		ed[from].push_back(edge{ from,to,sz(ed[to]),cap,cost,0 });
+		ed[to].push_back(edge{ to,from,sz(ed[from])-1,0,-cost,0 });
 	}
-	void spfa(int s, int dij) { // dij 0/1 = spfa/dijsktra
-		fill(all(pre), -1); fill(all(vis), 0); fill(all(dst), INF);
-		dst[s] = 0; push(s, dij);
-		while (sz(q) + sz(pq)) {
-			int v;
-			if (dij) {
-				v = pq.top().nd; pq.pop();
-				if (vis[v]++) continue;
-			} else {
-				v = q.front(); q.pop_front();
-				vis[v] = 0;
-			}
-			for (auto eid : g[v]) {
-				edge &e = es[eid];
-				if (e.cap != e.f) {
-					int u = e.v;
-					ll d = dst[v] + e.w;
-					if (d < dst[u]) {
-						dst[u] = d; pre[u] = eid ^ 1;
-						push(u, dij);
-					}
+	void path(int s) {
+		fill(all(seen), 0); fill(all(dist), INF);
+		dist[s] = 0; ll di;
+		__gnu_pbds::priority_queue<pair<ll, int>> q;
+		vector<decltype(q)::point_iterator> its(N);
+		q.push({0, s});
+		while (!q.empty()) {
+			s = q.top().second; q.pop();
+			seen[s] = 1; di = dist[s] + pi[s];
+			for (edge& e : ed[s]) if (!seen[e.to]) {
+				ll val = di - pi[e.to] + e.cost;
+				if (e.cap - e.flow > 0 && val < dist[e.to]) {
+					dist[e.to] = val;
+					par[e.to] = &e;
+					if (its[e.to] == q.end())
+						its[e.to] = q.push({ -dist[e.to], e.to });
+					else
+						q.modify(its[e.to], { -dist[e.to], e.to });
 				}
 			}
 		}
+		rep(i,N) pi[i] = min(pi[i] + dist[i], INF);
 	}
-	void add(int u, int v, ll cap = 1, ll cost = 0) {
-		g[u].push_back(sz(es));
-		es.push_back({v, cap, cost, 0});
-		g[v].push_back(sz(es));
-		es.push_back({u, 0, -cost, 0});
-	}
-	pair<ll, ll> calc(int s, int t, ll k = -1) {
-		spfa(s, 0); // disregard if weights are non-negative
-		// compute dist faster here if graph is special (DAG etc)
-		ll totf = 0, totc = 0, fc = dst[t];
-		while (true) {
-			rep (v, sz(g)) for (auto e : g[v])
-				es[e].w += dst[v] - dst[es[e].v];
-			spfa(s, 1);
-			if (~pre[t]) {
-				fc += dst[t];
-				ll f = ~k ? k - totf : INF;
-				for (int e = pre[t]; ~e; e = pre[es[e].v])
-					f = min(f, es[e ^ 1].cap - es[e ^ 1].f);
-				for (int e = pre[t]; ~e; e = pre[es[e].v])
-					es[e ^ 1].f += f, es[e].f -= f;
-				totf += f, totc += f * fc;
-				if (totf == k) break;
-			} else break;
+	pair<ll, ll> maxflow(int s, int t, ll k = -1) {
+		if (k == -1) k = INF;
+		ll totflow = 0, totcost = 0;
+		while (path(s), seen[t]) {
+			ll fl = k - totflow;
+			for (edge* x = par[t]; x; x = par[x->from])
+				fl = min(fl, x->cap - x->flow);
+			totflow += fl;
+			for (edge* x = par[t]; x; x = par[x->from]) {
+				x->flow += fl;
+				ed[x->to][x->rev].flow -= fl;
+			}
+			if (totflow == k) break;
 		}
-		return {totf, totc};
+		rep(i,N) for(edge& e : ed[i]) totcost += e.cost * e.flow;
+		return {totflow, totcost/2};
+	}
+	// If some costs can be negative, call this before maxflow:
+	void setpi(int s) { // (otherwise, leave this out)
+		fill(all(pi), INF); pi[s] = 0;
+		int it = N, ch = 1; ll v;
+		while (ch-- && it--)
+			rep(i,N) if (pi[i] != INF)
+			  for (edge& e : ed[i]) if (e.cap)
+				  if ((v = pi[i] + e.cost) < pi[e.to])
+					  pi[e.to] = v, ch = 1;
+		assert(it >= 0); // negative cost cycle
 	}
 };
