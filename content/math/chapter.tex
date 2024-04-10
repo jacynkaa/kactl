@@ -4,6 +4,7 @@
 \chapter{Mathematics}
 
 \section{Equations}
+\small
 \[ax^2+bx+c=0 \Rightarrow x = \frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
 
 The extremum is given by $x = -b/2a$.
@@ -22,7 +23,7 @@ If $a_n = c_1 a_{n-1} + \dots + c_k a_{n-k}$, and $r_1, \dots, r_k$ are distinct
 Non-distinct roots $r$ become polynomial factors, e.g. $a_n = (d_1n + d_2)r^n$.
 
 \section{Trigonometry}
-\scalebox{0.7}{\parbox{\linewidth}{
+\scalebox{0.8}{\parbox{\linewidth}{
 \begin{align*}
 \sin(v\pm w) =\sin v\cos w\pm \cos v\sin w &&& \cos(v\pm w) =\cos v\cos w\mp \sin v\sin w\\
 \sin v+\sin w =2\sin\dfrac{v+w}{2}\cos\dfrac{v-w}{2} &&& \cos v+\cos w =2\cos\dfrac{v+w}{2}\cos\dfrac{v-w}{2} \\
@@ -31,6 +32,7 @@ Non-distinct roots $r$ become polynomial factors, e.g. $a_n = (d_1n + d_2)r^n$.
 \end{align*} 
 }}
 
+\small
 \[ (V+W)\tan(v-w)/2{}=(V-W)\tan(v+w)/2 \]
 where $V, W$ are lengths of sides opposite angles $v, w$.
 \begin{align*}
@@ -42,11 +44,15 @@ where $r=\sqrt{a^2+b^2}, \phi=\operatorname{atan2}(b,a)$.
 \section{Geometry}
 
 \subsection{Triangles}
-Side lengths: $a,b,c$\\
-Semiperimeter: $p=\dfrac{a+b+c}{2}$\\
-Area: $A=\sqrt{p(p-a)(p-b)(p-c)}$\\
-Circumradius: $R=\dfrac{abc}{4A}$\\
-Inradius: $r=\dfrac{A}{p}$\\
+\scalebox{0.8}{\parbox{\linewidth}{
+\begin{flalign*}
+\text{Side lengths: } a,b,c &&& \text{Semiperimeter: } p=\dfrac{a+b+c}{2}\\
+\text{Area: } A=\sqrt{p(p-a)(p-b)(p-c)} \\
+\text{Inradius: } r=\dfrac{A}{p} &&& \text{Circumradius: }R=\dfrac{abc}{4A}\\
+\end{flalign*}
+}}
+
+\small
 Length of median (divides triangle into two equal-area triangles): $m_a=\tfrac{1}{2}\sqrt{2b^2+2c^2-a^2}$\\
 Length of bisector (divides angles in two): $s_a=\sqrt{bc\left[1-\left(\dfrac{a}{b+c}\right)^2\right]}$\\
 Law of sines: $\dfrac{\sin\alpha}{a}=\dfrac{\sin\beta}{b}=\dfrac{\sin\gamma}{c}=\dfrac{1}{2R}$\\
